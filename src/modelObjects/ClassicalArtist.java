@@ -1,4 +1,4 @@
-package actionController;
+package modelObjects;
 
 public class ClassicalArtist extends Artist {
 

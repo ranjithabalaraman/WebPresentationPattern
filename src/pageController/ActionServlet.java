@@ -1,4 +1,4 @@
-package actionController;
+package pageController;
 
 import java.io.IOException;
 

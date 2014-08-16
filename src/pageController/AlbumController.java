@@ -1,4 +1,4 @@
-package actionController;
+package pageController;
 
 import java.io.IOException;
 
@@ -8,17 +8,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import modelObjects.Album;
+import modelObjects.RockAlbum;
+
 /**
- * Servlet implementation class ArtistController
+ * Servlet implementation class AlbumController
  */
-@WebServlet("/ArtistController")
-public class ArtistController extends ActionServlet {
+@WebServlet("/AlbumController")
+public class AlbumController extends ActionServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ArtistController() {
+	public AlbumController() {
 		super();
 	}
 
@@ -29,16 +32,21 @@ public class ArtistController extends ActionServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		//Get model objects
-		Artist artist = Artist.findNamed(request.getParameter("name"));
-		
-		if (artist == null) {
+		// Get model objects
+		Album album = Album.findNamed(request.getParameter("name"));
+
+		if (album == null) {
 			forward("/MissingArtistError.jsp", request, response);
 
 		} else {
-			// forward to artist.jsp & pass Helper object for dynamic logic
-			request.setAttribute("helper", new ArtistHelper(artist));
-			forward("/artist.jsp", request, response);
+			// forward to album.jsp / rockalbum.jsp based on model instance rather than helper object
+			request.setAttribute("helper", album);
+			if (album instanceof RockAlbum) {
+				forward("/rockalbum.jsp", request, response);
+			} else {
+				forward("/album.jsp", request, response);
+
+			}
 		}
 	}
 
